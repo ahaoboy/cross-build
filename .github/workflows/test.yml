@@ -50,6 +50,6 @@ jobs:
           bin: cross-build
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           target: ${{ matrix.target }}
-          # RUSTFLAGS: ${{ matrix.RUSTFLAGS }}
+          RUSTFLAGS: ${{ matrix.RUSTFLAGS }}
           tag: nightly
           allowUpdates: true
