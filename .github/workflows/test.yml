@@ -52,3 +52,4 @@ jobs:
           target: ${{ matrix.target }}
           RUSTFLAGS: ${{ matrix.RUSTFLAGS }}
           tag: nightly
+          allowUpdates: true

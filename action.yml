@@ -24,6 +24,9 @@ inputs:
   makeLatest:
     description: "makeLatest"
     required: false
+  allowUpdates:
+    description: "allowUpdates"
+    required: false
 
 runs:
   using: "composite"
@@ -113,6 +116,6 @@ runs:
       if: ${{ inputs.tag != '' }}
       with:
         tag: ${{ inputs.tag }}
-        artifacts: "${{ inputs.bin }}-${{ steps.artifact-target.outputs.artifact-target }}.*"
-        allowUpdates: true
+        artifacts: "${{ inputs.bin }}-${{ inputs.target }}.*"
+        allowUpdates: ${{ inputs.allowUpdates }}
         makeLatest: ${{ inputs.makeLatest }}
