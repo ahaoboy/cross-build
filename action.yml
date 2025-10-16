@@ -1,5 +1,5 @@
-name: Setup js-engine-setup
-description: Download, install, and setup js-engine-run to your path.
+name: Setup cross-build
+description: build ci for rust.
 author: ahaoboy
 branding:
   icon: play-circle
@@ -34,7 +34,7 @@ runs:
         toolchain: "nightly"
 
     - name: Setup musl aarch64
-      if: startsWith(${{ inputs.target }}, 'aarch64-unknown-linux')
+      if: startsWith(inputs.target, 'aarch64-unknown-linux')
       shell: bash
       run: |
         sudo apt-get update -y
