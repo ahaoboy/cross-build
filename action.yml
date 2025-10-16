@@ -27,6 +27,9 @@ inputs:
   allowUpdates:
     description: "allowUpdates"
     required: false
+  features:
+    description: "features"
+    required: false
 
 runs:
   using: "composite"
@@ -91,22 +94,10 @@ runs:
         bin: ${{ inputs.bin }}
         target: ${{ inputs.target }}
         token: ${{ inputs.GITHUB_TOKEN }}
+        features: ${{ inputs.features }}
         ref: "refs/tags/dummy"
       env:
         RUSTFLAGS: ${{ inputs.RUSTFLAGS }}
-    # - name: Get target name for artifact
-    #   id: artifact-target
-    #   shell: bash
-    #   run: |
-    #     target="${{ inputs.target }}"
-    #     if [[ -z "${target}" ]]; then
-    #       host=$(rustc -vV | grep -E '^host:' | cut -d' ' -f2)
-    #       printf '%s\n' "artifact-target=${host}" >>"${GITHUB_OUTPUT}"
-    #     # elif [[ "${{ matrix.build-tool }}" == 'cargo-zigbuild' ]]; then
-    #     #   printf '%s\n' "artifact-target=${target%%.*}" >>"${GITHUB_OUTPUT}"
-    #     else
-    #       printf '%s\n' "artifact-target=${target}" >>"${GITHUB_OUTPUT}"
-    #     fi
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.bin }}-${{ inputs.target }}
