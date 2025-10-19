@@ -30,9 +30,6 @@ inputs:
   features:
     description: "features"
     required: false
-  rustflags:
-    description: "rustflags"
-    required: false
   toolchain:
     description: "toolchain"
     required: false
