@@ -30,14 +30,21 @@ inputs:
   features:
     description: "features"
     required: false
+  rustflags:
+    description: "rustflags"
+    required: false
+  toolchain:
+    description: "toolchain"
+    required: false
+    default: "stable"
 
 runs:
   using: "composite"
   steps:
     - uses: actions-rust-lang/setup-rust-toolchain@v1
       with:
-        rustflags: "-A warnings"
-        toolchain: "nightly"
+        rustflags: ${{ inputs.rustflags }}
+        toolchain: ${{ inputs.toolchain }}
 
     - name: Setup musl aarch64
       if: startsWith(inputs.target, 'aarch64-unknown-linux')
