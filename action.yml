@@ -42,6 +42,10 @@ inputs:
     description: "upload-artifact"
     required: false
     default: "true"
+  package:
+    description: "package"
+    required: false
+
 runs:
   using: "composite"
   steps:
@@ -106,6 +110,7 @@ runs:
         token: ${{ inputs.GITHUB_TOKEN }}
         features: ${{ inputs.features }}
         archive: ${{ inputs.archive }}
+        package: ${{ inputs.package }}
         ref: "refs/tags/dummy"
       env:
         RUSTFLAGS: ${{ inputs.RUSTFLAGS }}
