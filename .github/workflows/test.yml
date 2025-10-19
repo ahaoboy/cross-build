@@ -47,9 +47,10 @@ jobs:
       - name: run cross-build
         uses: ./
         with:
-          bin: cross-build
+          bin: cross-build,cross-test
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           target: ${{ matrix.target }}
           RUSTFLAGS: ${{ matrix.RUSTFLAGS }}
           tag: nightly
           allowUpdates: true
+          archive: "cross-build-${{ matrix.target }}"

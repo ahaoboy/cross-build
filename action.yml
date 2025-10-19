@@ -34,7 +34,10 @@ inputs:
     description: "toolchain"
     required: false
     default: "stable"
-
+  archive:
+    description: "archive"
+    required: false
+    # default: "$bin-$target"
 runs:
   using: "composite"
   steps:
@@ -99,18 +102,23 @@ runs:
         target: ${{ inputs.target }}
         token: ${{ inputs.GITHUB_TOKEN }}
         features: ${{ inputs.features }}
+        archive: ${{ inputs.archive }}
         ref: "refs/tags/dummy"
       env:
         RUSTFLAGS: ${{ inputs.RUSTFLAGS }}
     - uses: actions/upload-artifact@v4
       with:
-        name: ${{ inputs.bin }}-${{ inputs.target }}
-        path: ${{ inputs.bin }}-${{ inputs.target }}.*
+        name: ${{ inputs.archive || format('{0}-{1}', inputs.bin, inputs.target) }}
+        path: ${{ format('{0}.*', (inputs.archive || format('{0}-{1}', inputs.bin, inputs.target))) }}
+        # name: ${{ inputs.archive != '' && inputs.archive || format('{0}-{1}', inputs.bin, inputs.target) }}
+        # path: ${{ inputs.archive != '' && format('{0}.*', inputs.archive) || format('{0}-{1}.*', inputs.bin, inputs.target) }}
     - name: release nightly
       uses: ncipollo/release-action@v1
       if: ${{ inputs.tag != '' }}
       with:
         tag: ${{ inputs.tag }}
-        artifacts: "${{ inputs.bin }}-${{ inputs.target }}.*"
+        artifacts: ${{ format('{0}.*', (inputs.archive || format('{0}-{1}', inputs.bin, inputs.target))) }}
+        # path: ${{ inputs.archive != '' && format('{0}.*', inputs.archive) || format('{0}-{1}.*', inputs.bin, inputs.target) }}
         allowUpdates: ${{ inputs.allowUpdates }}
         makeLatest: ${{ inputs.makeLatest }}
+        token: ${{ inputs.GITHUB_TOKEN }}
