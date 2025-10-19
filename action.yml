@@ -38,6 +38,10 @@ inputs:
     description: "archive"
     required: false
     # default: "$bin-$target"
+  upload_artifact:
+    description: "upload-artifact"
+    required: false
+    default: "true"
 runs:
   using: "composite"
   steps:
@@ -94,7 +98,6 @@ runs:
       run: |
         cargo install -q cross --git https://github.com/cross-rs/cross
         cargo clean
-
     - uses: taiki-e/upload-rust-binary-action@v1
       with:
         dry-run: true
@@ -107,18 +110,16 @@ runs:
       env:
         RUSTFLAGS: ${{ inputs.RUSTFLAGS }}
     - uses: actions/upload-artifact@v4
+      if: ${{ inputs.upload_artifact == 'true' }}
       with:
         name: ${{ inputs.archive || format('{0}-{1}', inputs.bin, inputs.target) }}
         path: ${{ format('{0}.*', (inputs.archive || format('{0}-{1}', inputs.bin, inputs.target))) }}
-        # name: ${{ inputs.archive != '' && inputs.archive || format('{0}-{1}', inputs.bin, inputs.target) }}
-        # path: ${{ inputs.archive != '' && format('{0}.*', inputs.archive) || format('{0}-{1}.*', inputs.bin, inputs.target) }}
     - name: release nightly
       uses: ncipollo/release-action@v1
       if: ${{ inputs.tag != '' }}
       with:
         tag: ${{ inputs.tag }}
         artifacts: ${{ format('{0}.*', (inputs.archive || format('{0}-{1}', inputs.bin, inputs.target))) }}
-        # path: ${{ inputs.archive != '' && format('{0}.*', inputs.archive) || format('{0}-{1}.*', inputs.bin, inputs.target) }}
         allowUpdates: ${{ inputs.allowUpdates }}
         makeLatest: ${{ inputs.makeLatest }}
         token: ${{ inputs.GITHUB_TOKEN }}
