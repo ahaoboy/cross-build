@@ -120,7 +120,7 @@ runs:
       env:
         RUSTFLAGS: ${{ inputs.RUSTFLAGS }}
     - uses: actions/upload-artifact@v4
-      if: ${{ inputs.upload_artifact == 'true' }}
+      if: ${{ inputs.upload-artifact == 'true' }}
       with:
         name: ${{ inputs.archive == '$bin-$target' && format('{0}-{1}', inputs.bin, inputs.target) || inputs.archive }}
         path: ${{ format('{0}.*', (inputs.archive == '$bin-$target' && format('{0}-{1}', inputs.bin, inputs.target) || inputs.archive)) }}
