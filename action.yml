@@ -38,13 +38,17 @@ inputs:
     description: "archive"
     required: false
     default: "$bin-$target"
-  upload_artifact:
+  upload-artifact:
     description: "upload-artifact"
     required: false
     default: "true"
   package:
     description: "package"
     required: false
+  no-default-features:
+    description: "no-default-features"
+    required: false
+    default: "false"
 
 runs:
   using: "composite"
@@ -111,6 +115,7 @@ runs:
         features: ${{ inputs.features }}
         archive: ${{ inputs.archive }}
         package: ${{ inputs.package }}
+        no-default-features: ${{ inputs.no-default-features }}
         ref: "refs/tags/dummy"
       env:
         RUSTFLAGS: ${{ inputs.RUSTFLAGS }}
