@@ -49,6 +49,10 @@ inputs:
     description: "no-default-features"
     required: false
     default: "false"
+  profile:
+    description: "profile"
+    required: false
+    default: "release"
 
 runs:
   using: "composite"
@@ -115,6 +119,7 @@ runs:
         features: ${{ inputs.features }}
         archive: ${{ inputs.archive }}
         package: ${{ inputs.package }}
+        profile: ${{ inputs.profile }}
         no-default-features: ${{ inputs.no-default-features }}
         ref: "refs/tags/dummy"
       env:
