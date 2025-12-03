@@ -62,7 +62,7 @@ runs:
         rustflags: ${{ inputs.rustflags }}
         toolchain: ${{ inputs.toolchain }}
 
-    - uses: ahaoboy/aarch64-linux-musl-cross-build@V1
+    - uses: ahaoboy/aarch64-linux-musl-cross-build@v1
       if: startsWith(inputs.target, 'aarch64-unknown-linux')
 
     - name: install cross
